@@ -19,4 +19,32 @@ public class LibroCategoria {
     public LibroCategoria() {
     }
 
+    public LibroCategoria(Libro libro, Categoria categoria) {
+        this.libro = libro;
+        this.categoria = categoria;
+    }
+
+    public Long getId() {
+        return id;
+    }
+
+    public void setId(Long id) {
+        this.id = id;
+    }
+
+    public Libro getLibro() {
+        return libro;
+    }
+
+    public void setLibro(Libro libro) {
+        this.libro = libro;
+    }
+
+    public Categoria getCategoria() {
+        return categoria;
+    }
+
+    public void setCategoria(Categoria categoria) {
+        this.categoria = categoria;
+    }
 }
