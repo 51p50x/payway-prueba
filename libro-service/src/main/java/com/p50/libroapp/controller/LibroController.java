@@ -1,17 +1,18 @@
 package com.p50.libroapp.controller;
 
+import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.ResponseBody;
 
-@RestController
+@Controller
 @RequestMapping("/api/v1/libros")
 public class LibroController {
 
-    @GetMapping
+    @GetMapping(produces = "application/json")
+    @ResponseBody
     public String getAllLibros() {
-        return "Probando Conectividad Rest";
+        return "{Probando Conectividad Rest aaaa}";
     }
 
 }

@@ -1,2 +1,3 @@
-/.idea/
-/target/
+libro-service/target/
+libro-service/.idea/
+libro-service/libro-servicio.iml
