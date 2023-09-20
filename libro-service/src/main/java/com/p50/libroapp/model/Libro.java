@@ -2,6 +2,8 @@ package com.p50.libroapp.model;
 
 import javax.persistence.*;
 import java.math.BigDecimal;
+import java.util.ArrayList;
+import java.util.List;
 
 @Entity
 public class Libro {
@@ -16,6 +18,9 @@ public class Libro {
     private Autor autor;
     private BigDecimal precio;
     private String estado;
+
+    @Transient
+    private List<Categoria> categorias = new ArrayList<>();
 
     public Libro() {
     }
@@ -65,6 +70,14 @@ public class Libro {
 
     public void setEstado(String estado) {
         this.estado = estado;
+    }
+
+    public List<Categoria> getCategorias() {
+        return categorias;
+    }
+
+    public void setCategorias(List<Categoria> categorias) {
+        this.categorias = categorias;
     }
 
 }
