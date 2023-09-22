@@ -1,26 +1,22 @@
 package com.p50.libroapp.dto;
 
-import com.p50.libroapp.model.Autor;
-import com.p50.libroapp.model.Libro;
-
 import java.math.BigDecimal;
 import java.util.List;
 
 public class LibroDto {
 
     private String titulo;
-    private Autor autor;
+    private Long autorId;
     private BigDecimal precio;
     private String estado;
     private List<Long> categoriaIds;
 
-    public Libro toLibro() {
-        Libro libro = new Libro();
-        libro.setTitulo(this.titulo);
-        libro.setAutor(this.autor);
-        libro.setPrecio(this.precio);
-        libro.setEstado(this.estado);
-        return libro;
+    public Long getAutorId() {
+        return autorId;
+    }
+
+    public void setAutorId(Long autorId) {
+        this.autorId = autorId;
     }
 
     public String getTitulo() {
@@ -29,14 +25,6 @@ public class LibroDto {
 
     public void setTitulo(String titulo) {
         this.titulo = titulo;
-    }
-
-    public Autor getAutor() {
-        return autor;
-    }
-
-    public void setAutor(Autor autor) {
-        this.autor = autor;
     }
 
     public BigDecimal getPrecio() {

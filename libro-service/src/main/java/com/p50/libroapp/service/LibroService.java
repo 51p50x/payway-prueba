@@ -1,15 +1,16 @@
 package com.p50.libroapp.service;
 
+import com.p50.libroapp.dto.LibroDto;
 import com.p50.libroapp.exception.ResourceNotFoundException;
+import com.p50.libroapp.model.Autor;
 import com.p50.libroapp.model.Categoria;
 import com.p50.libroapp.model.Libro;
 import com.p50.libroapp.model.LibroCategoria;
+import com.p50.libroapp.repository.AutorRepository;
 import com.p50.libroapp.repository.CategoriaRepository;
 import com.p50.libroapp.repository.LibroCategoriaRepository;
 import com.p50.libroapp.repository.LibroRepository;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.data.domain.Page;
-import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 
 import javax.transaction.Transactional;
@@ -29,8 +30,13 @@ public class LibroService {
     @Autowired
     private LibroCategoriaRepository libroCategoriaRepository;
 
+    @Autowired
+    private AutorRepository autorRepository;
+
     public Optional<Libro> findById(Long id) {
-        return libroRepository.findById(id);
+        Optional<Libro> optionalLibro = libroRepository.findById(id);
+        optionalLibro.ifPresent(this::setLibroCategorias);
+        return optionalLibro;
     }
 
     public List<Libro> findAll(int page, int size) {
@@ -52,22 +58,39 @@ public class LibroService {
 
 
     @Transactional
-    public Libro create(Libro libro, List<Long> categoriaIds) {
+    public Libro create(LibroDto libroDto) {
+        Libro libro = new Libro();
+
+        libro.setTitulo(libroDto.getTitulo());
+        libro.setPrecio(libroDto.getPrecio());
+        libro.setEstado(libroDto.getEstado());
+
+        Autor autor = autorRepository.findById(libroDto.getAutorId())
+                .orElseThrow(() -> new ResourceNotFoundException("Autor no encontrado con ID: " + libroDto.getAutorId()));
+        libro.setAutor(autor);
+
         libro = libroRepository.save(libro);
-        setLibroCategorias(libro, categoriaIds);
+        setLibroCategorias(libro, libroDto.getCategoriaIds());
+
         return libro;
     }
 
     @Transactional
-    public Libro update(Long id, Libro libroDetails, List<Long> categoriaIds) {
+    public Libro update(Long id, LibroDto libroDto) {
         Libro libro = libroRepository.findById(id).orElseThrow(() ->
                 new ResourceNotFoundException("Libro no encontrado con ID: " + id));
-        libro.setTitulo(libroDetails.getTitulo());
-        libro.setAutor(libroDetails.getAutor());
-        libro.setPrecio(libroDetails.getPrecio());
-        libro.setEstado(libroDetails.getEstado());
+
+        libro.setTitulo(libroDto.getTitulo());
+        libro.setPrecio(libroDto.getPrecio());
+        libro.setEstado(libroDto.getEstado());
+
+        Autor autor = autorRepository.findById(libroDto.getAutorId())
+                .orElseThrow(() -> new ResourceNotFoundException("Autor no encontrado con ID: " + libroDto.getAutorId()));
+        libro.setAutor(autor);
+
         libro = libroRepository.save(libro);
-        setLibroCategorias(libro, categoriaIds);
+        setLibroCategorias(libro, libroDto.getCategoriaIds());
+
         return libro;
     }
 

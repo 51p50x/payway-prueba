@@ -5,12 +5,11 @@ import com.p50.libroapp.exception.ResourceNotFoundException;
 import com.p50.libroapp.model.Libro;
 import com.p50.libroapp.service.LibroService;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.data.domain.Page;
-import org.springframework.data.domain.Pageable;
-import org.springframework.data.web.PageableDefault;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
+import org.springframework.web.servlet.support.ServletUriComponentsBuilder;
 
+import java.net.URI;
 import java.util.List;
 
 @RestController
@@ -37,24 +36,22 @@ public class LibroController {
 
     @PostMapping("/libros")
     public ResponseEntity<Libro> createLibro(@RequestBody LibroDto libroDto) {
-        Libro libro = new Libro();
-        libro.setTitulo(libroDto.getTitulo());
-        libro.setAutor(libroDto.getAutor());
-        libro.setPrecio(libroDto.getPrecio());
-        libro.setEstado(libroDto.getEstado());
-        libro = libroService.create(libro, libroDto.getCategoriaIds());
-        return ResponseEntity.ok(libro);
+        Libro libro = libroService.create(libroDto);
+        URI location = ServletUriComponentsBuilder
+                .fromCurrentRequest().path("/{id}")
+                .buildAndExpand(libro.getId()).toUri();
+        return ResponseEntity.created(location).body(libro);
     }
 
     @PutMapping("/libros/{id}")
     public ResponseEntity<Libro> updateLibro(@PathVariable Long id, @RequestBody LibroDto libroDto) {
-        Libro libro = libroService.update(id, libroDto.toLibro(), libroDto.getCategoriaIds());
+        Libro libro = libroService.update(id, libroDto);
         return ResponseEntity.ok(libro);
     }
 
     @DeleteMapping("/libros/{id}")
     public ResponseEntity<?> deleteLibro(@PathVariable Long id) {
         libroService.delete(id);
-        return ResponseEntity.ok().build();
+        return ResponseEntity.noContent().build();
     }
 }
