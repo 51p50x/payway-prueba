@@ -1,0 +1,49 @@
+<div class = 'libro-section'>
+<h2>Administrar Libros</h2>
+<button mat-raised-button color="primary" (click)="mostrarFormulario()" style="margin-bottom: 10px;">Agregar Libro</button>
+<div style="overflow-x: auto;">
+<mat-table [dataSource]="libros">
+
+    <!-- Título del Libro Column -->
+    <ng-container matColumnDef="titulo">
+        <mat-header-cell *matHeaderCellDef> Título del Libro </mat-header-cell>
+        <mat-cell *matCellDef="let libro" data-label="libro"> {{libro.titulo}} </mat-cell>
+    </ng-container>
+
+    <!-- Precio Column -->
+    <ng-container matColumnDef="precio">
+        <mat-header-cell *matHeaderCellDef> Precio </mat-header-cell>
+        <mat-cell *matCellDef="let libro" data-label="precio"> {{libro.precio}} </mat-cell>
+    </ng-container>
+
+    <!-- Autor Column -->
+    <ng-container matColumnDef="autor">
+        <mat-header-cell *matHeaderCellDef> Autor </mat-header-cell>
+        <mat-cell *matCellDef="let libro" data-label="autor"> {{obtenerNombreAutor(libro.autor)}} </mat-cell>
+    </ng-container>
+
+    <!-- Categorías Column -->
+    <ng-container matColumnDef="categorias">
+        <mat-header-cell *matHeaderCellDef> Categorías </mat-header-cell>
+        <mat-cell *matCellDef="let libro" data-label="categorias"> {{obtenerNombresCategorias(libro.categorias)}} </mat-cell>
+    </ng-container>
+
+    <!-- Acciones Column -->
+    <ng-container matColumnDef="acciones">
+        <mat-header-cell *matHeaderCellDef> Acciones </mat-header-cell>
+        <mat-cell *matCellDef="let libro"> 
+            <button mat-button color="accent" (click)="editarLibro(libro)">Editar</button>
+            <button mat-button color="warn" (click)="desactivarLibro(libro)">Desactivar</button>
+        </mat-cell>
+    </ng-container>
+
+    <mat-header-row *matHeaderRowDef="['titulo', 'precio', 'autor', 'categorias', 'acciones']"></mat-header-row>
+    <mat-row *matRowDef="let row; columns: ['titulo', 'precio', 'autor', 'categorias', 'acciones']"></mat-row>
+
+</mat-table>
+</div>
+<mat-paginator [length]="paginas"
+               [pageSize]="5"
+               [pageSizeOptions]="[5, 10, 20]"></mat-paginator>
+
+</div>

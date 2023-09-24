@@ -1,0 +1,13 @@
+.app-title {
+  font-weight: bold;
+  margin-right: auto; /* Esto empuja todo lo que viene después hacia la derecha */
+}
+
+.spacer {
+  flex: 1 1 auto; /* Esto ocupa todo el espacio disponible */
+}
+
+a[mat-button] {
+  margin-left: 15px; /* Espaciado entre enlaces/botones */
+  text-transform: capitalize; /* Si prefieres que no se convierta todo a mayúsculas */
+}

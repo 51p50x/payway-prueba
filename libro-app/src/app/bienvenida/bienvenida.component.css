@@ -1,0 +1,10 @@
+.welcome-card {
+    max-width: 800px;
+    margin: 50px auto;  /* Centra la tarjeta y da espacio en la parte superior e inferior */
+    padding: 30px;
+    text-align: center;  /* Centra el texto en la tarjeta */
+  }
+  
+  .mat-display-1 {
+    color: white;  /* Color de ejemplo; ajústalo a tus necesidades */
+  }

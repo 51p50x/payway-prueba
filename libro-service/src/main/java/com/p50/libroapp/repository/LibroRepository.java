@@ -9,7 +9,8 @@ import java.util.List;
 
 @Repository
 public interface LibroRepository extends JpaRepository<Libro,Long> {
-    @Query(value = "SELECT * FROM Libro ORDER BY id ASC LIMIT ?1 OFFSET ?2", nativeQuery = true)
+    @Query(value = "SELECT * FROM Libro WHERE estado = 'activo' ORDER BY id ASC LIMIT ?1 OFFSET ?2", nativeQuery = true)
     List<Libro> findAllWithPagination(int limit, int offset);
 
+    long countByEstado(String estado);
 }

@@ -1,0 +1,30 @@
+<h2 mat-dialog-title>{{data.isEdit ? 'Editar Libro' : 'Agregar Libro'}}</h2>
+<mat-dialog-content>
+  <form [formGroup]="libroForm" (ngSubmit)="onSubmit()">
+    <mat-form-field>
+        <input matInput formControlName="titulo" placeholder="Título del libro">
+    </mat-form-field>
+
+    <mat-form-field>
+        <input matInput formControlName="precio" type="number" placeholder="Precio del libro">
+    </mat-form-field>
+
+    <mat-form-field>
+        <mat-label>Autor</mat-label>
+        <mat-select formControlName="autorId">
+            <mat-option *ngFor="let autor of autores" [value]="autor.id">{{autor.nombre}}</mat-option>
+        </mat-select>
+    </mat-form-field>
+
+    <mat-form-field>
+        <mat-label>Categorías</mat-label>
+        <mat-select formControlName="categoriaIds" multiple>
+            <mat-option *ngFor="let categoria of categorias" [value]="categoria.id">{{categoria.nombre}}</mat-option>
+        </mat-select>
+    </mat-form-field>
+  </form>
+</mat-dialog-content>
+<mat-dialog-actions>
+  <button mat-button (click)="onSubmit()">Guardar</button>
+  <button mat-button (click)="onClose()">Cancelar</button>
+</mat-dialog-actions>

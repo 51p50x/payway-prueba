@@ -48,6 +48,10 @@ public class LibroService {
         return libros;
     }
 
+    public long countAllLibros() {
+        return libroRepository.countByEstado("activo");
+    }
+
     private void setLibroCategorias(Libro libro) {
         List<LibroCategoria> libroCategorias = libroCategoriaRepository.findByLibro(libro);
         List<Categoria> categorias = libroCategorias.stream()
@@ -63,7 +67,7 @@ public class LibroService {
 
         libro.setTitulo(libroDto.getTitulo());
         libro.setPrecio(libroDto.getPrecio());
-        libro.setEstado(libroDto.getEstado());
+        libro.setEstado("activo");
 
         Autor autor = autorRepository.findById(libroDto.getAutorId())
                 .orElseThrow(() -> new ResourceNotFoundException("Autor no encontrado con ID: " + libroDto.getAutorId()));
@@ -82,7 +86,6 @@ public class LibroService {
 
         libro.setTitulo(libroDto.getTitulo());
         libro.setPrecio(libroDto.getPrecio());
-        libro.setEstado(libroDto.getEstado());
 
         Autor autor = autorRepository.findById(libroDto.getAutorId())
                 .orElseThrow(() -> new ResourceNotFoundException("Autor no encontrado con ID: " + libroDto.getAutorId()));
@@ -92,6 +95,14 @@ public class LibroService {
         setLibroCategorias(libro, libroDto.getCategoriaIds());
 
         return libro;
+    }
+
+    @Transactional
+    public void deactivateLibro(Long id) {
+        Libro libro = libroRepository.findById(id).orElseThrow(() ->
+                new ResourceNotFoundException("Libro no encontrado con ID: "+id));
+        libro.setEstado("inactivo");
+        libroRepository.save(libro);
     }
 
     @Transactional

@@ -8,7 +8,7 @@ public class LibroDto {
     private String titulo;
     private Long autorId;
     private BigDecimal precio;
-    private String estado;
+
     private List<Long> categoriaIds;
 
     public Long getAutorId() {
@@ -35,13 +35,6 @@ public class LibroDto {
         this.precio = precio;
     }
 
-    public String getEstado() {
-        return estado;
-    }
-
-    public void setEstado(String estado) {
-        this.estado = estado;
-    }
 
     public List<Long> getCategoriaIds() {
         return categoriaIds;
